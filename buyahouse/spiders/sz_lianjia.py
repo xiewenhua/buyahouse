@@ -2,11 +2,6 @@ import scrapy
 
 class szLianjiaErSpider(scrapy.Spider):
     name = "sz_lianjia"
-    custom_settings = {
-        'ITEM_PIPELINES': {
-            'buyahouse.pipelines.SzHousePipeline': 200
-        }
-    }
     def start_requests(self):
         urls = [
             "https://sz.lianjia.com/ershoufang/",
