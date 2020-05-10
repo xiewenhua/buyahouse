@@ -14,6 +14,18 @@ BOT_NAME = 'buyahouse'
 SPIDER_MODULES = ['buyahouse.spiders']
 NEWSPIDER_MODULE = 'buyahouse.spiders'
 
+ITEM_PIPELINES = {
+    # 多个spider的运行顺序，根据顺序不同走不同pipeline保存数据
+    'buyahouse.mysqlPipeline.pipelines.SzLianjiaErPipeline': 1, # 深圳二手房
+    # 'buyahouse.pipelines.SzHousePipeline': 200,   # 深圳新房
+
+}
+
+MYSQL_HOST = 'localhost'
+MYSQL_USER = 'root'
+MYSQL_PASSWORD = 'root'
+MYSQL_PORT = 3306
+MYSQL_DB = 'houses'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'buyahouse (+http://www.yourdomain.com)'

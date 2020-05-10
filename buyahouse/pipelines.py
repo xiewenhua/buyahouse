@@ -6,6 +6,13 @@
 # See: https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 
 
-class BuyahousePipeline:
+class SzHouseErPipeline:
     def process_item(self, item, spider):
+        print(111)
+        return item
+
+
+class SzHousePipeline:
+    def process_item(self, item, spider):
+        print(2222)
         return item
