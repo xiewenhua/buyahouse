@@ -130,4 +130,4 @@ dmypy.json
 
 
 # 自己添加的
-.csv
+*.csv
