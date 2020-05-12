@@ -3,7 +3,7 @@ from buyahouse.items import BuyahouseItem
 
 
 class szLianjiaErSpider(scrapy.Spider):
-    name = "sz_lianjia_er"
+    name = "sz"
     # custom_settings = {
     #     'ITEM_PIPELINES': {
     #         'buyahouse.pipelines.SzHouseErPipeline': 100
@@ -18,6 +18,7 @@ class szLianjiaErSpider(scrapy.Spider):
         #     # "https://sz.lianjia.com/ershoufang/pg/2"
         # ]
         for url in urls:
+            # print("============此处翻页=============")
             yield scrapy.Request(url=url, callback=self.parse)
 
     def parse(self, response):
@@ -29,16 +30,18 @@ class szLianjiaErSpider(scrapy.Spider):
         item = BuyahouseItem()
         houselinks = response.xpath(
             '//div[@class="title"]/a[@data-housecode]/@href').extract()
+        # print("当前页面有效链接："+str(len(houselinks)))
 
         for houselink in houselinks:
-            item['url'] = houselink
 
-            print(houselink)
-            yield scrapy.Request(url=houselink, callback=self.parse_content, meta={'key': item})
+            # print(houselink)  
+            yield scrapy.Request(url=houselink, callback=self.parse_content, meta={'key': item,'houselink':houselink})
 
     def parse_content(self, response):
         """详情页面"""
         item = response.meta['key']
+        item['url'] =response.meta['houselink']
+        # print("writed: "+item['url'])
         item['title'] = response.xpath("//h1[@title]/@title").extract()
         # print(item['title'])
         item['price'] = response.xpath(
@@ -91,6 +94,6 @@ class szLianjiaErSpider(scrapy.Spider):
         item['room_spare_parts'] = response.xpath(
             '//*[@id="introduction"]/div/div/div[2]/div[2]/ul/li[8]/span[2]/text()').extract()
 
-        print(item)
+        # print(item)
 
         yield item

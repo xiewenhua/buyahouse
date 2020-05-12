@@ -17,6 +17,7 @@ NEWSPIDER_MODULE = 'buyahouse.spiders'
 ITEM_PIPELINES = {
     # 多个spider的运行顺序，根据顺序不同走不同pipeline保存数据
     'buyahouse.mysqlPipeline.pipelines.SzLianjiaErPipeline': 1, # 深圳二手房
+    # 'buyahouse.pipelines.SzHouseErPipeline':2 # 深圳二手房json文件保存
     # 'buyahouse.pipelines.SzHousePipeline': 200,   # 深圳新房
 
 }
@@ -26,6 +27,15 @@ MYSQL_USER = 'root'
 MYSQL_PASSWORD = 'root'
 MYSQL_PORT = 3306
 MYSQL_DB = 'houses'
+
+# 终端输出日志设置
+# 1. CRITICAL - 严重错误
+# 2. ERROR - 一般错误
+# 3. WARNING - 警告信息
+# 4. INFO - 一般信息
+# 5. DEBUG - 调试信息
+LOG_LEVEL='DEBUG'
+
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'buyahouse (+http://www.yourdomain.com)'
