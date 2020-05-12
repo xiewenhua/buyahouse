@@ -1,4 +1,4 @@
-from .sql import lianjiaSql
+# from .sql import lianjiaSql
 from buyahouse.items import BuyahouseItem
 
 class SzLianjiaErPipeline(object):
