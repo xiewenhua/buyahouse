@@ -13,9 +13,9 @@ cur = cnx.cursor()
 class lianjiaSql:
     @classmethod
     def insert_er_house(cls, **dict_data):
-        sql = 'INSERT INTO sz_house (`name`) VALUES (%(name)s)'
+        sql = 'INSERT INTO sz_house (`url`) VALUES (%(url)s)'
         value = {
-            'name': dict_data['name']
+            'url': dict_data['url']
         }
         cur.execute(sql, value)
         cur.commit()
