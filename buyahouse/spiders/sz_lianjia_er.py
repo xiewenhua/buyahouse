@@ -34,13 +34,13 @@ class szLianjiaErSpider(scrapy.Spider):
 
         for houselink in houselinks:
 
-            # print(houselink)  
-            yield scrapy.Request(url=houselink, callback=self.parse_content, meta={'key': item,'houselink':houselink})
+            # print(houselink)
+            yield scrapy.Request(url=houselink, callback=self.parse_content, meta={'key': item, 'houselink': houselink})
 
     def parse_content(self, response):
         """详情页面"""
         item = response.meta['key']
-        item['url'] =response.meta['houselink']
+        item['url'] = response.meta['houselink']
         # print("writed: "+item['url'])
         item['title'] = response.xpath("//h1[@title]/@title").extract()
         # print(item['title'])
@@ -50,8 +50,9 @@ class szLianjiaErSpider(scrapy.Spider):
             "//span[@class='unitPriceValue']/text()").extract()
         item['community_name'] = response.xpath(
             '//div[@class="communityName"]/a[@target]/text()').extract()
+        # 输出Bug
         item['area'] = response.xpath(
-            '//div[@class="areaName"]/span[2]/text()').extract()
+            '/html/body/div[5]/div[2]/div[5]/div[2]/span[2]/a/text()').extract()
         item['number'] = response.xpath(
             '//div[@class="houseRecord"]/span[2]/text()').extract()
 
@@ -90,7 +91,7 @@ class szLianjiaErSpider(scrapy.Spider):
         item['ownership'] = response.xpath(
             '//*[@id="introduction"]/div/div/div[2]/div[2]/ul/li[6]/span[2]/text()').extract()
         item['mortgage_information'] = response.xpath(
-            '//*[@id="introduction"]/div/div/div[2]/div[2]/ul/li[7]/span[2]/text()').extract()
+            '//*[@id="introduction"]/div/div/div[2]/div[2]/ul/li[7]/span[2]/text()').extract()[0].strip()
         item['room_spare_parts'] = response.xpath(
             '//*[@id="introduction"]/div/div/div[2]/div[2]/ul/li[8]/span[2]/text()').extract()
 
