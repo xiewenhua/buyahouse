@@ -11,6 +11,7 @@ class szLianjiaErSpider(scrapy.Spider):
     # }
 
     def start_requests(self):
+        # 先抓取一页内容，避免抓取太多被网站限制访问，后面改成range(1,100)即可
         urls = ["https://sz.lianjia.com/ershoufang/pg" +
                 str(i) for i in range(1, 2)]
         # urls = [
@@ -40,7 +41,7 @@ class szLianjiaErSpider(scrapy.Spider):
     def parse_content(self, response):
         """详情页面"""
         item = response.meta['key']
-        item['url'] = response.meta['houselink']
+        item['houselink'] = response.meta['houselink']
         # print("writed: "+item['url'])
         item['title'] = response.xpath("//h1[@title]/@title").extract()
         # print(item['title'])

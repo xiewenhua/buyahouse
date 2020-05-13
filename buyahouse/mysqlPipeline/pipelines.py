@@ -11,8 +11,10 @@ MYSQL_PASSWORD = settings.MYSQL_PASSWORD
 MYSQL_PORT = settings.MYSQL_PORT
 MYSQL_DB = settings.MYSQL_DB
 
-cnx = pymysql.connect(user=MYSQL_USER, password=MYSQL_PASSWORD, host = MYSQL_HOSTS, database=MYSQL_DB)
+cnx = pymysql.connect(user=MYSQL_USER, password=MYSQL_PASSWORD,
+                      host=MYSQL_HOSTS, database=MYSQL_DB)
 cur = cnx.cursor()
+
 
 class SzLianjiaErPipeline(object):
     def __init__(self):
@@ -20,19 +22,24 @@ class SzLianjiaErPipeline(object):
 
     @classmethod
     def insert_er_house(cls, item):
-        sql = 'INSERT INTO sz_house (`houselink`) VALUES (%(url)s)'
+        sql = 'INSERT INTO sz_house (`houselink`,`title`,`price`) VALUES (%(houselink)s，%(title)s,%(price)s)'
         value = {
-            'url': item['url']
+            'houselink': item['houselink'],
+            'title': item['title'][0],
+            'price': item['price'][0]
         }
-        cur.execute(sql, value)
-        cnx.commit()
+        try:
+            cur.execute(sql, value)
+            cnx.commit()
+        except:
+            print("========写入MySQL出错=======")
 
     def process_item(self, item, spider):
 
         if isinstance(item, BuyahouseItem):
             SzLianjiaErPipeline.insert_er_house(item)
             # self.file = open('ershoufang.json', 'w')
-            print('=======处理深圳二手房=========')
+            # print('=======处理深圳二手房=========')
             content = json.dumps(dict(item), ensure_ascii=False)+"\n"
             self.file.write(content)
             # print("已经写入.json文件")

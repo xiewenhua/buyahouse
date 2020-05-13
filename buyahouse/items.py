@@ -12,7 +12,7 @@ class BuyahouseItem(scrapy.Item):
     '''深圳二手房Item'''
 
     # 详情链接
-    url = scrapy.Field()
+    houselink = scrapy.Field()
     # 标题
     title = scrapy.Field()
     # 价格
