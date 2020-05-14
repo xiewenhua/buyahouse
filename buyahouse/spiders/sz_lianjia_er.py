@@ -11,9 +11,9 @@ class szLianjiaErSpider(scrapy.Spider):
     # }
 
     def start_requests(self):
-        # 先抓取一页内容，避免抓取太多被网站限制访问，后面改成range(1,100)即可
+        # 先抓取一页内容，避免抓取太多被网站限制访问，后面改成range(1,101)即可
         urls = ["https://sz.lianjia.com/ershoufang/pg" +
-                str(i) for i in range(1, 2)]
+                str(i) for i in range(1, 101)]
         # urls = [
         #     "https://sz.lianjia.com/ershoufang/",
         #     # "https://sz.lianjia.com/ershoufang/pg/2"
@@ -33,9 +33,7 @@ class szLianjiaErSpider(scrapy.Spider):
             '//div[@class="title"]/a[@data-housecode]/@href').extract()
         # print("当前页面有效链接："+str(len(houselinks)))
 
-        for houselink in houselinks:
-
-            # print(houselink)
+        for houselink in houselinks:                
             yield scrapy.Request(url=houselink, callback=self.parse_content, meta={'key': item, 'houselink': houselink})
 
     def parse_content(self, response):
@@ -52,9 +50,12 @@ class szLianjiaErSpider(scrapy.Spider):
         item['community_name'] = response.xpath(
             '//div[@class="communityName"]/a[@target]/text()').extract()
         # 输出Bug
-        item['area'] = response.xpath(
-            '/html/body/div[5]/div[2]/div[5]/div[2]/span[2]/a/text()').extract()
-        item['number'] = response.xpath(
+        try:
+            item['area'] = response.xpath(
+                '/html/body/div[5]/div[2]/div[5]/div[2]/span[2]/a/text()').extract()
+        except:
+            item['area']=['NULL']
+        item['linknumber'] = response.xpath(
             '//div[@class="houseRecord"]/span[2]/text()').extract()
 
         item['housing_type'] = response.xpath(
@@ -78,23 +79,27 @@ class szLianjiaErSpider(scrapy.Spider):
             '//*[@id="introduction"]/div/div/div[1]/div[2]/ul/li[10]/text()').extract()
         item['equipped_with_elevator'] = response.xpath(
             '//*[@id="introduction"]/div/div/div[1]/div[2]/ul/li[11]/text()').extract()
+        item['house_floor'] = response.xpath(
+            '//*[@id="introduction"]/div/div/div[1]/div[2]/ul/li[2]/text()').extract()
 
         item['listing_time'] = response.xpath(
             '//*[@id="introduction"]/div/div/div[2]/div[2]/ul/li[1]/span[2]/text()').extract()
         item['housing_society_code'] = response.xpath(
-            '//*[@id="introduction"]/div/div/div[2]/div[2]/ul/li[2]/span[2]/text()').extract()
+            '//*[@id="introduction"]/div/div/div[2]/div[2]/ul/li[9]/span[2]/text()').extract()
         item['last_transaction'] = response.xpath(
             '//*[@id="introduction"]/div/div/div[2]/div[2]/ul/li[3]/span[2]/text()').extract()
         item['usage_of_houses'] = response.xpath(
             '//*[@id="introduction"]/div/div/div[2]/div[2]/ul/li[4]/span[2]/text()').extract()
         item['housing_years'] = response.xpath(
             '//*[@id="introduction"]/div/div/div[2]/div[2]/ul/li[5]/span[2]/text()').extract()
-        item['ownership'] = response.xpath(
+        item['owner_ship'] = response.xpath(
             '//*[@id="introduction"]/div/div/div[2]/div[2]/ul/li[6]/span[2]/text()').extract()
         item['mortgage_information'] = response.xpath(
-            '//*[@id="introduction"]/div/div/div[2]/div[2]/ul/li[7]/span[2]/text()').extract()[0].strip()
+            '//*[@id="introduction"]/div/div/div[2]/div[2]/ul/li[7]/span[2]/text()').extract()
         item['room_spare_parts'] = response.xpath(
             '//*[@id="introduction"]/div/div/div[2]/div[2]/ul/li[8]/span[2]/text()').extract()
+        item['transaction_ownership'] = response.xpath(
+            '//*[@id="introduction"]/div/div/div[2]/div[2]/ul/li[2]/span[2]/text()').extract()
 
         # print(item)
 
