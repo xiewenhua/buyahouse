@@ -11,7 +11,7 @@ CREATE TABLE sz_house(
   area varchar(255),
   linknumber bigint(11),
   housing_type varchar(255),
-  construction_area int(11),
+  construction_area float,
   inside_area int(11),
   house_orientation varchar(255),
   renovation_condition varchar(255),
@@ -33,5 +33,5 @@ CREATE TABLE sz_house(
   PRIMARY KEY (id)
 );
 -- 创建显示主要数据视图
-DROP VIEW debug;
-CREATE VIEW debug_view  AS SELECT area AS `行政区`, price AS `总价`,price_per_square AS `每平价格`,construction_area AS `建筑面积`,inside_area AS `套内面积`,total_floor AS `总楼层`,equipped_with_elevator AS `电梯`,floor_area AS `楼层区域`,create_time AS `创建时间`,houselink AS `链接` FROM sz_house;
+DROP VIEW debug_view;
+CREATE VIEW debug_view  AS SELECT area AS `行政区`, price AS `总价`,price_per_square AS `每平价格`,construction_area AS `建筑面积`,inside_area AS `套内面积`,total_floor AS `总楼层`,equipped_with_elevator AS `电梯`,floor_area AS `楼层区域`,housing_society_code AS `房协编码`,transaction_ownership AS `交易权属`,mortgage_information AS `有无抵押`,create_time AS `创建时间`,houselink AS `链接` FROM sz_house;
