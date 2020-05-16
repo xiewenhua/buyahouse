@@ -32,6 +32,12 @@ CREATE TABLE sz_house(
   listing_time date,
   PRIMARY KEY (id)
 );
+-- 创建只有读和写响应表权限的用户
+CREATE user houser identified BY 'houser';
+-- 授予相应的读和写权限
+GRANT SELECT ON houses.* to houser;
+GRANT INSERT ON houses.* to houser;
+
 -- 创建显示主要数据视图
 DROP VIEW debug_view;
 CREATE VIEW debug_view  AS SELECT area AS `行政区`, price AS `总价`,price_per_square AS `每平价格`,construction_area AS `建筑面积`,inside_area AS `套内面积`,total_floor AS `总楼层`,equipped_with_elevator AS `电梯`,floor_area AS `楼层区域`,housing_society_code AS `房协编码`,transaction_ownership AS `交易权属`,mortgage_information AS `有无抵押`,create_time AS `创建时间`,houselink AS `链接` FROM sz_house;
