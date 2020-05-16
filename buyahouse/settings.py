@@ -23,8 +23,8 @@ ITEM_PIPELINES = {
 }
 
 MYSQL_HOST = 'localhost'
-MYSQL_USER = 'root'
-MYSQL_PASSWORD = 'root'
+MYSQL_USER = 'houser'
+MYSQL_PASSWORD = 'houser'
 MYSQL_PORT = 3306
 MYSQL_DB = 'houses'
 
