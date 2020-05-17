@@ -37,7 +37,12 @@ CREATE user houser identified BY 'houser';
 -- 授予相应的读和写权限
 GRANT SELECT ON houses.* to houser;
 GRANT INSERT ON houses.* to houser;
-
+-- 创建视图求当天每平方米房价均值
+CREATE VIEW avg_today_view AS SELECT avg(price_per_square) AS `今天深圳平均房价（元/平方）` FROM sz_house WHERE date(create_time)=date(now());
+-- 创建视图查看每天房价情况
+CREATE VIEW everyday_view AS SELECT date(create_time) AS `日期`,avg(price_per_square) AS `深圳平均房价（元/平方）`,min(price_per_square) AS `最低房价（元/平方）`,max(price_per_square) AS  `最高房价（元/平方）` FROM sz_house GROUP BY date(create_time);
+-- 创建视图求指定行政区当天每平方米房价均值
+-- SELECT VIEW avg_today_view AS SELECT avg（price_per_square) FROM sz_house WHERE date(create_time)=date(now()) AND area=;
 -- 创建显示主要数据视图
 DROP VIEW debug_view;
 CREATE VIEW debug_view  AS SELECT area AS `行政区`, price AS `总价`,price_per_square AS `每平价格`,construction_area AS `建筑面积`,inside_area AS `套内面积`,total_floor AS `总楼层`,equipped_with_elevator AS `电梯`,floor_area AS `楼层区域`,housing_society_code AS `房协编码`,transaction_ownership AS `交易权属`,mortgage_information AS `有无抵押`,create_time AS `创建时间`,houselink AS `链接` FROM sz_house;
