@@ -1,4 +1,5 @@
 -- 程序用到的SQL语句
+-- 草稿，无需执行
 INSERT INTO sz_house(
     houselink,
     title,
