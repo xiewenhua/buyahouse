@@ -1,4 +1,5 @@
 -- create database houses;
+-- source create.sql 导入数据库
 -- use houses;
 CREATE TABLE sz_house(
   id int(11) NOT NULL AUTO_INCREMENT,
@@ -40,7 +41,7 @@ GRANT INSERT ON houses.* to houser;
 -- 创建视图求当天每平方米房价均值
 CREATE VIEW avg_today_view AS SELECT avg(price_per_square) AS `今天深圳平均房价（元/平方）` FROM sz_house WHERE date(create_time)=date(now());
 -- 创建视图查看每天房价情况
-CREATE VIEW everyday_view AS SELECT date(create_time) AS `日期`,avg(price_per_square) AS `深圳平均房价（元/平方）`,min(price_per_square) AS `最低房价（元/平方）`,max(price_per_square) AS  `最高房价（元/平方）` FROM sz_house GROUP BY date(create_time);
+CREATE VIEW everyday_view AS SELECT date(create_time) AS `日期`,count(*) AS `记录数量`,avg(price_per_square) AS `深圳平均房价（元/平方）`,min(price_per_square) AS `最低房价（元/平方）`,max(price_per_square) AS  `最高房价（元/平方）` FROM sz_house GROUP BY date(create_time);
 -- 创建视图求指定行政区当天每平方米房价均值
 -- SELECT VIEW avg_today_view AS SELECT avg（price_per_square) FROM sz_house WHERE date(create_time)=date(now()) AND area=;
 -- 创建显示主要数据视图
